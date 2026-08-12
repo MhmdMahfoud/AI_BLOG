@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+*/node_modules/
+
+# Environment variables
+.env
+
+# Build output
+build/
+dist/
+client/build/
+client/dist/
+
+# Logs
+npm-debug.log*
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing/coverage
+coverage/
+
+# Misc
+*.pem
+.cache/
+.eslintcache
+
