@@ -17,6 +17,10 @@ ref:'Blog'
 ,
 required:true
     },
+   
+}
+,
+{
     timestamps:true
 });
 export default mongoose.model("Comment", commentSchema);
