@@ -6,7 +6,7 @@ const blogSchema = new mongoose.Schema(
       required: true,
       trim: true, //remove white space
     },
-    subtttle: {
+    subtitle: {
       type: String,
       trim: true,
     },
@@ -21,7 +21,7 @@ const blogSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ["Technology", "Startup", "LifeStyle", "Fnance"],
+      enum: ["Technology", "Startup", "LifeStyle", "Finance"],
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

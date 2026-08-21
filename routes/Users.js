@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../models/User.js"
+import User from "../models/User.js";
 import bcrypt from "bcrypt";
 const router = express.Router();
 router.post("/register", async (req, res) => {
@@ -17,7 +17,7 @@ router.post("/register", async (req, res) => {
       email,
       password: hashedPassword,
     });
-    await newUser.save()
+    await newUser.save();
     res.status(201).json({
       success: true,
       message: "User Added Successfully",
@@ -26,15 +26,13 @@ router.post("/register", async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         password: newUser.password,
-        role:newUser.role,
+        role: newUser.role,
       },
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message,
-   
-      
     });
   }
 });
@@ -74,4 +72,4 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-export default router
+export default router;
