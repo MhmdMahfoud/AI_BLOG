@@ -1,8 +1,9 @@
 import express from "express";
 const router = express.Router();
 import Blog from "../models/Blog.js";
+import { authMiddleware } from "../middleware/AuthMiddleware.js";
 
-router.post("/Add-Blog", async (req, res) => {
+router.post("/Add-Blog", authMiddleware, async (req, res) => {
   try {
     const {
       tittle,
@@ -12,7 +13,7 @@ router.post("/Add-Blog", async (req, res) => {
       published,
       //views,
     } = req.body;
-    if (!tittle || !subtittle || !description || !category || !published) {
+    if (!tittle || !subtittle || !description || !category) {
       return res.status(401).json({ error, message: "ALL Field are required" });
     }
     const newBlog = await Blog.Create({
@@ -21,7 +22,7 @@ router.post("/Add-Blog", async (req, res) => {
       description,
       category,
       published: published === "true",
-      author: req.userId,
+      author: req.user.id,
     });
     res
       .status(201)
@@ -39,7 +40,7 @@ router.get("All-Blog", async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
-router.delete("/Delete-Blog/:id", async (req, res) => {
+router.delete("/Delete-Blog/:id", authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
     const blog = await Blog.findById(id);

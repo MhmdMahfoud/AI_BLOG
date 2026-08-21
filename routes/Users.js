@@ -1,7 +1,19 @@
 import express from "express";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import { authMiddleware } from "../middleware/AuthMiddleware.js";
+import jwt from "jsonwebtoken";
 const router = express.Router();
+// always for auth////////////////////////////////////////////////////////////
+function setAuthCookie(res, token) {
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+}
+//// ////////////// /////////////////////////////////////////////////////////////
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -18,6 +30,10 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
     await newUser.save();
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+    setAuthCookie(res, token);
     res.status(201).json({
       success: true,
       message: "User Added Successfully",
@@ -51,7 +67,10 @@ router.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ error: "invalid password" });
     }
-    7;
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+    setAuthCookie(res, token);
     return res.status(201).json({
       message: "user logged in successfully",
       user: { id: user._id, name: user.name, email: user.email },
