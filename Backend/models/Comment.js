@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { PiStandardDefinitionLight } from "react-icons/pi";
+
 const commentSchema = new mongoose.Schema(
   {
     name: {
