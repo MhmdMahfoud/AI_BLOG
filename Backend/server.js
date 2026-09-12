@@ -7,7 +7,8 @@ import Comments from "./routes/Comments.js";
 import cors from 'cors'
 dotenv.config();
 const app = express();
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+const Front=process.env.Front
+app.use(cors({ origin: Front, credentials: true }));
 app.use(express.json());
 app.use("/users", User);
 app.use("/blogs", Blog);
