@@ -1,5 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useAuth } from '../context/AuthContext'
+import { Link } from 'react-router-dom'
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
@@ -13,6 +15,7 @@ function classNames(...classes:string[]) {
 }
 
 export default function Navbar() {
+  const {user,logout}=useAuth()
   return (
     <Disclosure
       as="nav"
@@ -56,16 +59,13 @@ export default function Navbar() {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button
-              type="button"
-              className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
-            >
-              <span className="absolute -inset-1.5" />
-              <span className="sr-only">View notifications</span>
-              <BellIcon aria-hidden="true" className="size-6" />
-            </button>
+        {!user ? (<>
+        <div className='flex space-x-4'>
+        <Link to="/login" className='text-gray-300 hover:text-white text-sm font-medium'>Login</Link>
+         <Link to="/register" className='text-gray-300 hover:text-white text-sm font-medium '>Register</Link>
+         </div>
+        </>):(
 
-            {/* Profile dropdown */}
             <Menu as="div" className="relative ml-3">
               <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                 <span className="absolute -inset-1.5" />
@@ -107,6 +107,7 @@ export default function Navbar() {
                 </MenuItem>
               </MenuItems>
             </Menu>
+            )}
           </div>
         </div>
       </div>
