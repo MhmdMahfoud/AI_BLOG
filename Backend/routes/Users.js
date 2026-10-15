@@ -90,5 +90,15 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+router.post("/logout",async(req,res)=>{res.clearCookie("token"),function setAuthCookie(res, token) {
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
 
+  });
+}})
+router.get("/me",authMiddleware,async(req,res)=>{
+  res.status(200).json({success:true,user:req.user})
+})
 export default router;
